@@ -86,8 +86,8 @@
                 </li>
                 <li>
                   <div class="collapsible-header">Task 2. Localization</div>
-                  <div class="collapsible-body">
-                    <img style="width: 25%;" src="./images/tampered_loc1.png" > 
+                  <div style="display: flex;width: 100%;align-items: flex-start" class="collapsible-body">
+                    <img style="width: 25%" src="./images/tampered_loc1.png" > 
                     <img style="width: 25%" src="./images/tampered_loc2.png" >
                     <img style="width: 25%" src="./images/tampered_loc3.png" > 
                     <img style="width: 25%" src="./images/tampered_loc4.png" > 
@@ -154,16 +154,18 @@
         <!-- Noise print -->            
         <div class="row">
           <h5 class="center black-text">Noiseprint Features</h5>
-          <p class="center light" style="margin: 0em"> Adam Optimizer is used with weight decay at 0.0005</p>          
-                        
+          <p class="center light" style="margin: 0em"> This approach tries to find the tampered regions by extracting the 'noiseprint'(fingerprint of the camera model used). The tampered region has noise inconsistencies in the tampered region. A CNN based network is used to extract noise from images whose architecture is shown below. The network has been trained in a Siamese fashion due to lack of input output pairs. Instead, a pair of image patches are considered, if they are of the same camera model and from the same position in the image, they have a positive label and otherwise a negative label. This model is trained using images from 125 camera models, with each batch having 50 groups(same model and position within a group) of 4 patches each. This network is used to detect forgeries in an image, as tampered regions will have inconsistencies in noise as shown below.
+          </p>
+          <img style="display: block;margin-left: auto;margin-right: auto;width: 50%;" src="./images/noiseprint.png" > <p class="center">The network architecture</p>
+          <img style="display: block;margin-left: auto;margin-right: auto;width: 50%;" src="./images/noiseprint-example.png" > <p class="center">Example of noise inconsistencies</p>
+
         </div>
-        
-        <!-- CMFD -->            
-        <div class="row">
+                    
+        <!-- <div class="row">
           <h5 class="center black-text"> CMFD </h5>
           <p class="center light" style="margin: 0em"> Adam Optimizer is used with weight decay at 0.0005</p>          
                         
-        </div>
+        </div> -->
 
         <!-- DCT -->            
         <div class="row">
