@@ -12,7 +12,7 @@ class BaseOptions(object):
 		self.device = None
 	def initialize(self):
 		self.parser.add_argument('--batch_size',type=int, default=1, help='Batch Size for each iternations')
-		self.parser.add_argument('--val_batch_size',type=int, default=5, help='Batch Size for each iternations')
+		self.parser.add_argument('--val_batch_size',type=int, default=1, help='Batch Size for each iternations')
 		self.parser.add_argument('--cropx',type=int, default=1600, help='Final size of image after crop')
 		self.parser.add_argument('--cropy',type=int, default=3200, help='Final size of image after crop')
 		self.parser.add_argument('--gpus', default='0', help='-1: cpu else is a list of gpu ids eg. 0,1,2')
@@ -73,7 +73,7 @@ class TestOptions(BaseOptions):
 	def initialize(self):
 		BaseOptions.initialize(self)	
 		self.parser.add_argument('--mode', type=str, default="Test", help='Why are we running the model eg. Train , test, finetune etc.')
-		self.parser.add_argument('--test_cases', type=int, default=32, help='Number of images to run on test case')
+		self.parser.add_argument('--test_cases', type=int, default=1, help='Number of images to run on test case')
 		self.parser.add_argument('--best_k', type=int, default=4, help='Number of images to run on test case')
 
 if __name__ == "__main__":

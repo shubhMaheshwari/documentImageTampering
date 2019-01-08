@@ -120,10 +120,37 @@
         <!--   Stenographic features Section   -->            
           <div class="row">
             <h5 class="center black-text">Steganalysis Features</h5>
-            <p class="center light" style="margin: 0em"> Adam Optimizer is used with weight decay at 0.0005</p>          
-                          
-          </div>
+            <p class="center light" style="margin: 0em"> Noise component is generally used to detect tampering. Using edge filters they generate features on which run a classifer.</p>
+            <h6 class=" black-text" style="margin-left: 25%"> Step1. Generate residual of images using edge filters(1st, 2nd and 3rd order)</h6>          
+            <img class="center" style="width: 70%; margin-left: 15%;margin-right: 15%;" src="./images/filters.png">
+            <h6 class=" black-text" style="margin-left: 25%"> Step2. Computing Co-occurance matrix in the vertical and horizontal direction</h6>          
+            <h6 class=" black-text" style="margin-left: 25%"> Step3. Utilize the symmetry in features to reduce the dimentionality</h6>          
+            <h6 class=" black-text" style="margin-left: 25%"> Step4. Run an SVM classifier to predict the output(They are using bagging to give fast prediction and better models then using a single large model).</h6>          
 
+            <h5 class=" center black-text" >Possible Improvements:</h5>          
+            <p class=" light" style="margin-left: 25%"> 1. Co-occurance matrix is computation intensive and due to the large size of the image it takes a long time to compute</p>
+            <p class=" light" style="margin-left: 25%"> 2. We might we able to use the edge filters as the first conv layer for CNNs </p>
+            
+            <div class="col s6">
+              <h6 class="center black-text">Confusion Matrix (Traning)</h6>        
+              <img style="margin-left: 30%" src="./images/conf_train_steg.png" >
+              <p class="center light" style="margin: 0em">Accuracy:  0.83 </p>
+              <p class="center light" style="margin: 0em">Precision: 0.57 </p>
+              <p class="center light" style="margin: 0em">Recall: 0.8769 </p>
+              <p class="center light" style="margin: 0em">F1 score: 0.68875 </p>
+            </div>
+            <div class="col s6">
+              <h6 class="center black-text">Confusion Matrix (Test)</h6>        
+              <img  style="margin-left: 30%" src="./images/conf_test_steg.png" >
+              <p class="center light" style="margin: 0em">Accuracy:  0.7094 </p>
+              <p class="center light" style="margin: 0em">Precision: 0.0542 </p>
+              <p class="center light" style="margin: 0em">Recall: 0.233 </p>
+              <p class="center light" style="margin: 0em">F1 score: 0.087072 </p>
+            </div>
+            
+          </div>
+          <p class="center light">We can conclude the model ended up overfitting. More training data and larger batch size would definately help. </p>
+          
         <!-- Noise print -->            
         <div class="row">
           <h5 class="center black-text">Noiseprint Features</h5>
@@ -168,16 +195,30 @@
   </div>
   </div>
 
+
+  <div class="container" id="Dataset Generation">
+    <div class="section">
+      <!--   Icon Section   -->
+      <div class="row" style="font-size: 19px">
+        <h4 class="center brown-text">Document tampering dataset</h4>
+        <p class="center light" style="margin: 0em"> Deep learning frameworks will overfit due to shortage of data. We were unable to find any large scale datasets for this task. Should we create it?  </p>
+      </div> 
+    </div>
+  </div>
+  </div>
+
   <footer class="page-footer teal">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
           <h5 class="white-text">References</h5>
-          <p class="grey-text text-lighten-4">We would like to thank Yashas sir and Rudrabha sir for their inputs</p>
+          <p class="grey-text text-lighten-4"> Thank you</p>
         </div>
         <div class="col l6 s12">
           <ul>
             <li><a class="white-text" href="#!">Reference 1</a></li>
+            <li><a class="white-text" href="#!">Reference 2</a></li>
+            <li><a class="white-text" href="#!">Reference 3</a></li>
             <li><a class="white-text" href="#!">Reference 4</a></li>
           </ul>
         </div>

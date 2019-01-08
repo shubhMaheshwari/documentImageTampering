@@ -35,13 +35,16 @@ class DataSet(torch.utils.data.Dataset):
 		y_list = []
 		for filename in os.listdir(image_dir):
 			doc_id = filename.split('.')[0]
-			if (int(y_dict[doc_id]) == 0 and np.random.random() <= 0.3) or int(y_dict[doc_id]) == 1:
+			try:
+#				if (int(y_dict[doc_id]) == 0 and np.random.random() <= 0.3) or int(y_dict[doc_id]) == 1:
 				y_list.append(int(y_dict[doc_id]))
-				image_list.append(os.path.join(image_dir,filename))	        
+				image_list.append(os.path.join(image_dir,filename))
+			except KeyError as k:
+				print("KeyError:",doc_id)	        
 
-		for filename in os.listdir(fake_images):
-			image_list.append(os.path.join(fake_images,filename))	        
-			y_list.append(1)
+#		for filename in os.listdir(fake_images):
+#			image_list.append(os.path.join(fake_images,filename))	        
+#			y_list.append(1)
 
 
 		if len(y_list) != len(image_list):
@@ -93,7 +96,6 @@ class DataSet(torch.utils.data.Dataset):
 			im = cv2.imread(path)
 			y = self.y_list[idx]
 
-		print(path)
 		if(im is None):
 			print("fjakjdla;ks" + str(path))
 		im = self.crop_center(im)

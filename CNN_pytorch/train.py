@@ -145,7 +145,7 @@ for epoch in range(opt.epoch):
 	# Validate model using the validation set
 	model.eval()
 
-	sample_images, sample_labels,fileno,patch_y,patch_x,total_y,total_x = next(iter(sample_val_loader))
+	sample_images, sample_labels = next(iter(sample_val_loader))
 
 	sample_labels = sample_labels.squeeze(1)	
 	target_images = sample_images
