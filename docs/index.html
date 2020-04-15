@@ -17,17 +17,15 @@
 	  <ul class="center hide-on-med-and-down">
 		<li><a href="#intorduction">Intorduction</a></li>
 		<li><a href="#dataset">Dataset</a></li>
+		<li><a href="#method">Method</a></li>
 		<li><a href="#experiment">Experiment</a></li>
-		<li><a href="#current_experiment">Current Plan</a></li>
-		<li><a href="#conclusion">Conclusion</a></li>
 	  </ul>
 
 	  <ul id="nav-mobile" class="sidenav">
 		<li><a href="#intorduction">Intorduction</a></li>
 		<li><a href="#dataset">Dataset</a></li>
+		<li><a href="#method">Method</a></li>
 		<li><a href="#experiment">Experiment</a></li>
-		<li><a href="#current_experiment">Current Plan</a></li>
-		<li><a href="#conclusion">Conclusion</a></li>
 	  </ul>
 	  <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 	</div>
@@ -47,10 +45,10 @@
 	<div class="section">
 	  <!--   Icon Section   -->
 	  <div class="row center" style="font-size: 19px">
+<!-- 	  		<a class="waves-effect waves-light btn" href="#current_experiment">Current Plan</a> -->
 			<a class="waves-effect waves-light btn" href="./Report.pdf">Previous Semester Report</a>
-			<a class="waves-effect waves-light btn" href="#current_experiment">Current Plan</a>
 			<a class="waves-effect waves-light btn" href="http://preon.iiit.ac.in:9090/">Demo Website</a>
-
+			<a class="waves-effect waves-light btn" href="https://shubhmaheshwari.github.io/Image_Tampering/">Image Tampering</a>
 	  </div>
 	</div>
   </div>
@@ -60,10 +58,33 @@
   <div class="container" id="introduction">
 	<div class="section">
 
+	  <div class="row" style="font-size: 19px">
+		<h3 class="center brown-text">Current Findings</h3>
+		<table>
+	        <thead>
+	        </thead>
+	        <tbody>
+	          <tr>
+	            <td>1. With only 274 patches to train a deep learning setup is unable to learn features for document tampering detection. I have tried multiple setups such as different sampling rate, different architeures, different patch sizes. See <a href="#experiment">Experiments Section (cite)</a> </td>
+	          </tr>
+	          <tr>
+	           	<td>2. Data augmention and domain adaptation similiar to Yashas Setup for Image tampering increases the performance of the model but it is not sufficient to be used for detection. </td>
+	           </tr>
+	           <tr>
+	            <td>3. Combination of non deep learning methods (<a href="https://shubhmaheshwari.github.io/Image_Tampering/#CMFD_method" >CMFD, Jpeg Artifacts and Splicebuster </a>) seems to be performing better than the current setup.  </td>
+	        	</tr>
+	        	<tr>
+	          	<td>4. A better statergy to create synthethic document tampering should boost performance.  </td>
+	          </tr>
+	        </tbody>
+	    </table>
+	  </div>
+
+
 	  <!--   Icon Section   -->
 	  <div class="row" style="font-size: 19px">
 		<h3 class="center brown-text">Introduction</h3>
-			<p class=" light" style="margin: 0em"> Document Tampering detection is the find the location of tampering in a document. Convolution networks provide good results on detection of image tampering but these network require large amount of training data. Thus, we want to show that using data augmentation and domain adaptation we can get much better results. </p>
+			<p class=" light" style="margin: 0em"> Document Tampering detection is the find the location of tampering in a document. Convolution networks provide good results on detection of image tampering but these network require large amount of training data. Thus, we want to see if using data augmentation and domain adaptation we can get better performance using previous approaches. </p>
 	  </div>
 	</div>
   </div>
@@ -124,11 +145,85 @@
 				  <li >Other: drawing, copy and paste from web...</li>
 				</ul>
 			</div>
-		  </div>  
+		  </div>    
+	  </div>
+  </div>
+
+
+
+  
+
+  <div class="container" id="method">
+	<div class="section">
+
+	  <div class="row" style="font-size: 19px">
+		<h3 class="center brown-text">Method</h3>
+
+
+		<div class="row">
+	  	<img src="./images/Document_Tampering_setup.png" style="width: 100% "/>
+			<h6 class="center black-text">Figure shows the setup for document tampering detection</h6>
+	  </div>
+
+	  	<h5 class="center brown-text">Text Detection</h5>
+		<p>
+			First step is to detect the text in the image. For this I use <a href="http://arxiv.org/abs/1609.03605">ctpn-textdetector</a> to extract text from the documents.  To extract characters from the text, we use connectedcomponents. 
+		</p>
+
+		<h5 class="center brown-text">Creating Patches</h5>
+		<p>
+			The input to the model are 64x64 patches. To extract patches from the image.  We use the bounding boxes previously extracted . Then 64x64 patches are created by extracting the region around the text. This becomes the input to our model.
+		</p>
+
+		<h5 class="center brown-text">Class Imbalance</h5>
+		<p>
+			As a document generally contains large amount of text out of which only a few regions are tampered. The data becomes highly imbalanced. In the find-it dataset we noticed that on average only 3.0% of patches extracted from a document were tampered.
+		</p>
+
+		<h3 class="center brown-text" id="experiment">Experiments</h3>		
+		<div class="row">
+			<h4 class="center black-test" > Changing Sampling Ratio </h4>
+			<p> As we have very less tampered patches compared to non tampered patches.  The first experiment is to see the effect of sampling rate of different classes. Accordingly changing  the loss function. Hence after creating patches based as mentioned above. I tried 3 different sampling rate. </p>
+
+			<table>
+		        <thead>
+		          <tr>
+		              <th>Sampling Ratio( b/w tampered & non-tampered class )</th>
+		              <th> Validation Patch Accuracy </th>
+		              <th> Validation F1-score </th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr>
+		            <td>1-1</td>
+		            <td>0.657</td>
+		            <td>0.603</td>
+		          </tr>
+		          <tr>
+		            <td>1-5</td>
+		            <td>0.680</td>
+		            <td>0.624</td>
+		          </tr>
+  		          <tr>
+		            <td>1-10</td>
+		            <td>0.664</td>
+		            <td>0.608</td>
+		          </tr>
+		        </tbody>
+	    	</table>
+		</div>
+
+
+		<div class="row">
+			<h4 class="center black-test" > Amount of data augmentation </h4>
+
+			As tampered images are so low.  It makes it very hard to train a CNN architecture with such data. As shown by Yashas [cite] data augmentation improves the performance of deep learning models on image tampering classifiation. 
+
+
 
 		  <div class="row">
-			<h3 class="center brown-text" style="margin: 0em">Synthetic Data creation</h3>
-			<p>As tampered images are so low.  It makes it very hard to train a CNN architecture with such data.  Hence we create synthetic tampered images using 3 types of tampering.</p>
+			<h5 class="center brown-text" style="margin: 0em">Synthetic Data creation</h5>
+			<p>  We create synthetic tampered images using 3 types of tampering.</p>
 			<ul>
 			  <li >1. Copy-paste or CPI </li>
 			  <li >2. Splicing or CPO </li>
@@ -153,38 +248,61 @@
 				</li>
 		  	</ul>
 		  	<p> Find-it dataset provides 470 pristine images for classification. To create tampered images we first use a <a href="http://arxiv.org/abs/1609.03605">ctpn-textdetector [3]</a> to extract text from the documents.  To extract characters from the text, we use connectedcomponents.  Finally different types of tampering are created by replacing the text region.Thus, we create total of 6000 synthetic images. </p>
+		  </div>
 
-		  </div>  
-	  </div>
-  </div>
+	
+		</div>
+		</div>
 
-
-  <div class="container" id="experiment">
-	<div class="section">
-
-	  <div class="row" style="font-size: 19px">
-		<h3 class="center brown-text">Method</h3>
-
-		<h5 class="center brown-text">Creating Patches</h5>
-		<p>
-			The input to the model are 64x64 patches. To extract patches from the image. First, we run a text detector on the documents to detect the text. We use the <a href="http://arxiv.org/abs/1609.03605">ctpn-textdetector [3]</a>. Then 64x64 patches are created by extracting the region around the text. This becomes the input to our model
-		</p>
-
-		<h5 class="center brown-text">Class Imbalance</h5>
-		<p>
-			As a document generally contains large amount of text out of which only a few regions are tampered. The data becomes highly imbalanced. In the find-it dataset we noticed that on average only 3.0% of patches extracted from a document were tampered. Hence during training tampered patches are over-sampled. We kept the ratio at ratio of 32:1. The chance of picking a tampered patch is 32 times more likely than a pristine patch.
-		</p>
-
-		<h5 class="center brown-text">Architecture</h5>
-		<p>
+		<h5 class="center brown-text">Domain Adapatation</h5>
 			<img class="center" style="width: 70% " src="./images/report_images/architecture.png" > 
-			As seen in the figure during training source model and target model are trained simultaneously. Yashas uses a 5 layer CNN as the trunk of our architecture. The weights between them are shared.  Next they are passed through 2 fully connected layers, to get a 256-dim representation for source and target images. For domain adapation Yashas defines an MMD loss between the 2 representations. The MMD loss defined as:
+		<p>
+			As seen in the figure below during training source model and target model are trained simultaneously. The weights of the CNN block between them are shared.  Next they are passed through 2 fully connected layers, to get a 256-dim representation for source and target images. For domain adapation Yashas defines an MMD loss between the 2 representations. The MMD loss defined as:
 		</p>
 		<img class="center" style="width: 70%; padding-left: 30%" src="./images/report_images/mmd_loss.png" > 
 		<p>where xs and xt are features for the source and target images respectively. Φ(xs) and Φ(xt) are the calculated by passing the representation through Gaussian kernel</p>
 
-		<h5 class="center brown-text">Experiments</h5>		
+		<table>
+	        <thead>
+	          <tr>
+	              <th> Number of synthetic patches </th>
+		              <th> Source Training F1-score </th>
+	              <th> Source Validation F1-score </th>
+
+	              <th> Target Training data F1-score </th>
+	              <th> Target Validation F1-score </th>
+	          </tr>
+	        </thead>
+	        <tbody>
+	          <tr>
+	            <td> No synthetic data </td>
+	            <td> - </td>
+	            <td> - </td>
+	            <td>0.680</td>
+	            <td><b>0.624</b></td>
+	          </tr>
+	          <tr>
+	            <td> 2000 Patches </td>
+	            <td>0.968</td>
+	            <td>0.951</td>
+	            <td>0.962</td>
+	            <td>0.734</td>
+	          </tr>
+		          <tr>
+	            <td> 6000 </td>
+	            <td>0.980</td>
+	            <td>0.971</td>
+	            <td>0.973</td>
+	            <td><b>0.782</b></td>
+	          </tr>
+	        </tbody>
+    	</table>
+
+
+
+
 	  	<div class="row">
+	  		<h6 class="center black-test" > Loss & Accuracy plots vs epochs</h6>
 		  <ul class="collapsible">
 			<li>
 			  <div class="collapsible-header">Training & Validation loss with and without using augmented data</div>
@@ -201,20 +319,67 @@
 				<img style="width: 100%" src="./images/report_images/acc_plot.png" > 
 			  </div>
 			</li>
-			<li>
-			  <div class="collapsible-header"> Training and Validation F1-scores with and without using augmented data</div>
-			  <div style="width: 100%;align-items: flex-start" class="collapsible-body">
-			  	<p>As accuracy is not a good metric for evaluating hence we are also measuring the f1 score during training. Figure shows the training and validation f1-scores with and without using augmented data. We can clearly see that the model has over-fitted on the training data and hence is performing poorly on validation.</p>
-				<img style="width: 100%" src="./images/report_images/f1-score.png" > 
-			  </div>
-			</li>
 
 		  </ul>
 		</div>
 
+
+
+
+
+		<div class="row">
+			<h5 class="center black-test" > Changing CNN architecture </h5>
+			<p>
+				We futher tested whether changing the architecture would improve the performance. From the table below we can infer that resnet type model are performing slightly better than VGG setup used by Yashas
+			</p>
+
+
+			<table>
+		        <thead>
+		          <tr>
+		              <th>Number of Convolution operations </th>
+  		              <th> Source Training F1-score </th>
+		              <th> Source Validation F1-score </th>
+
+		              <th> Target Training data F1-score </th>
+		              <th> Target Validation F1-score </th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr>
+		            <td> 3 block </td>
+		            <td>0.902</td>
+		            <td>0.898</td>
+		            <td>0.87</td>
+		            <td><b>0.702</b></td>
+		          </tr>
+		          <tr>
+		            <td>5 blocks (Yashas Setup)</td>
+		            <td>0.973</td>
+		            <td>0.961</td>
+		            <td>0.953</td>
+		            <td><b>0.762</b></td>
+		          </tr>
+  		          <tr>
+		            <td>18 block (Resnet Setup) </td>
+		            <td>0.980</td>
+		            <td>0.971</td>
+		            <td>0.973</td>
+		            <td><b>0.782</b></td>
+		          </tr>
+		        </tbody>
+	    	</table>
+
+	    	We notice a marginal improvement by changing the architecture.
+		</div>
+
+
+
+
 		<h5 class="center black-test" > Testing </h5>
 		<p>
-			For testing we have taken the model with the highest average IOU over the validation data.
+			 For testing we have taken the model with the highest average IOU over the validation data. We compare it with the setup used by Verdolivia. They use a 3 techniques (a) CMFD for CPI, (b) Splicebuster for CPO and (c) Jpeg Artifacts. I have taken the union of all 3 masks and compared it with the ground truth to compare with their results. 
+
 		</p>
 		<table>
 	        <thead>
@@ -231,40 +396,53 @@
 	            <td>With Augmentation</td>
 	            <td>0.00178</td>
 	          </tr>
+
+              <tr>
+	            <td><a href="https://shubhmaheshwari.github.io/Image_Tampering/#CMFD_method"> CMFD + Noiseprint + Jpeg Artifacts </a>  </td>
+	            <td>0.516</td>
+	          </tr>
 	        </tbody>
 	    </table>
 
-		<h5 class="center black-test" > Examples </h5>
+		<h5 class="center black-test" > Qualtitative Results on Test set </h5>
 		<ul class="collapsible">
 			<li>
-			  <div class="collapsible-header">Qualtitative Results on Test set</div>
+			  <div class="collapsible-header"> Our Setup</div>
 			  <div class="row collapsible-body">
 					<img style="width: 100%" src="./images/report_images/testbetter1.png" > 
 					<img style="width: 100%" src="./images/report_images/testbetter2.png" > 
 			  </div>
 			</li>
+			<li>
+			  <div class="collapsible-header"> <a href="https://shubhmaheshwari.github.io/Image_Tampering/#CMFD_method"> CMFD + Noiseprint + Jpeg Artifacts </a> </div>
+			  <div class="row collapsible-body">
+					<img style="width: 100%" src="./images/report_images/prev1.png" > 
+					<img style="width: 100%" src="./images/report_images/prev2.png" > 
+					<img style="width: 100%" src="./images/report_images/prev3.png" > 
+			  </div>
+			</li>
 		</ul>
 		<p> For more results go to this <a href="./yashas_test_results.html">link</a> </p>
 
-		<h3 class="center brown-text" id="conclusion">Conclusion</h3>
+<!-- 		<h3 class="center brown-text" id="conclusion">Conclusion</h3>
 		<ul>
 			<li >1. Even after using augmented data the results were very poor on the find-it dataset</li>
 			<li >2. We tried undersampling pristine patches but the model still seems to be overfitting on the training data.</li>
 		</ul>
-		 
+ -->		 
 	  </div>
 	</div>
   </div>  
 
 
-  <div class="container" id="current_experiment">
-	<div class="section">
+<!--   <div class="container" id="current_experiment">
+	<div class="section"> -->
 
 	  <!--   Icon Section   -->
-	  <div class="row" style="font-size: 19px">
-		<h3 class="center brown-text">Current Plan</h3>
+<!-- 	  <div class="row" style="font-size: 19px">
+		<h3 class="center brown-text">Current Plan</h3> -->
 			
-			<ul>
+<!-- 			<ul>
 				<li >1. We are planning to change the objective from patch classification to semantic segmentation. </li>
 				<li> 2. Also we are planning to use noiseprint features</li>
 			</ul>
@@ -282,10 +460,10 @@
 				<li>	
 					3. This should help in inpainting if the model is able to understand the pattern generated using inpainting.
 				</li>
-			</ul>
+			</ul> -->
 
 		<!-- Noise print -->            
-		<div class="row">
+<!-- 		<div class="row">
 		  <b class="center black-text">Noiseprint Features<a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8713484">[2]</a></b>
 		  <p class="center light" style="margin: 0em"> The tampered region has noise inconsistencies in the tampered region. A CNN based network is used to extract noise from images whose architecture is shown below.
 		  </p>
@@ -297,7 +475,7 @@
 	  </div>
 	</div>
   </div>
-
+ -->
 
 <!--   <div class="container" id="improvements">
 	<div class="section"> -->
