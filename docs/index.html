@@ -84,7 +84,7 @@
 	  <!--   Icon Section   -->
 	  <div class="row" style="font-size: 19px">
 		<h3 class="center brown-text">Introduction</h3>
-			<p class=" light" style="margin: 0em"> Document Tampering detection is the find the location of tampering in a document. Convolution networks provide good results on detection of image tampering but these network require large amount of training data. Thus, we want to see if using data augmentation and domain adaptation we can get better performance using previous approaches. </p>
+			<p class=" light" style="margin: 0em"> Document Tampering detection is to find the location of tampering in a document. Convolution networks provide good results on detection of image tampering but these network require large amount of training data. Thus, we want to see if using data augmentation and domain adaptation we can get better performance than using previous approaches. </p>
 	  </div>
 	</div>
   </div>
@@ -94,7 +94,7 @@
 	  <!--   Icon Section   -->
 	  <div class="row" style="font-size: 19px">
 		<h3 class="center brown-text">Findit Dataset</h3>
-		  <p class="center light" style="margin: 0em" >For detection we are using the <a href="http://dx.doi.org/10.1109/ICPR.2018.8545428">Find-it dataset [4]</a>. The dataset is divided for 2 tasks classification and detection. <br> 
+		  <p class="center light" style="margin: 0em" >For detection I are using the <a href="http://dx.doi.org/10.1109/ICPR.2018.8545428">Find-it dataset [4]</a>. The dataset is divided for 2 tasks classification and detection. <br> 
 		  For detection it provides 100 images for training and 80 images for testing.</p>   
 		  <div class="row">
 			  <ul class="collapsible">
@@ -167,7 +167,7 @@
 
 	  	<h5 class="center brown-text">Text Detection</h5>
 		<p>
-			First step is to detect the text in the image. For this I use <a href="http://arxiv.org/abs/1609.03605">ctpn-textdetector</a> to extract text from the documents.  To extract characters from the text, we use connectedcomponents. 
+			First step is to detect the text in the image. For this I use <a href="http://arxiv.org/abs/1609.03605">ctpn-textdetector</a> to extract text from the documents.  To extract characters from the text, I use connectedcomponents. 
 		</p>
 
 		<h5 class="center brown-text">Creating Patches</h5>
@@ -177,13 +177,13 @@
 
 		<h5 class="center brown-text">Class Imbalance</h5>
 		<p>
-			As a document generally contains large amount of text out of which only a few regions are tampered. The data becomes highly imbalanced. In the find-it dataset we noticed that on average only 3.0% of patches extracted from a document were tampered.
+			As a document generally contains large amount of text out of which only a few regions are tampered. The data becomes highly imbalanced. In the find-it dataset I noticed that on average only 3.0% of patches extracted from a document were tampered.
 		</p>
 
 		<h3 class="center brown-text" id="experiment">Experiments</h3>		
 		<div class="row">
 			<h4 class="center black-test" > Changing Sampling Ratio </h4>
-			<p> As we have very less tampered patches compared to non tampered patches.  The first experiment is to see the effect of sampling rate of different classes. Accordingly changing  the loss function. Hence after creating patches based as mentioned above. I tried 3 different sampling rate. </p>
+			<p> As there are very less tampered patches compared to non tampered patches.  The first experiment is to see the effect of sampling rate of different classes. Accordingly changing  the loss function. Hence after creating patches based as mentioned above. Results on 3 different sampling rate are shown below. </p>
 
 			<table>
 		        <thead>
@@ -378,7 +378,7 @@
 
 		<h5 class="center black-test" > Testing </h5>
 		<p>
-			 For testing we have taken the model with the highest average IOU over the validation data. We compare it with the setup used by Verdolivia. They use a 3 techniques (a) CMFD for CPI, (b) Splicebuster for CPO and (c) Jpeg Artifacts. I have taken the union of all 3 masks and compared it with the ground truth to compare with their results. 
+			 For testing we have taken the model with the highest average IOU over the validation data. We compare it with the setup used by Verdolivia. They use a 3 techniques (a) CMFD for CPI, (b) Splicebuster for CPO and (c) Jpeg Artifacts. I have taken the union of all 3 masks and compared it with the ground truth to evaluate with their results. 
 
 		</p>
 		<table>
